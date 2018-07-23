@@ -6,7 +6,7 @@ import sys
 details_file = sys.argv[1]
 
 env.user = 'ec2-user'
-env.key_filename = '/root/.ssh/couchbase-qe.pem'
+env.key_filename = sys.argv[2]
 
 with open(details_file, 'r') as f:
     data_store = json.load(f)
