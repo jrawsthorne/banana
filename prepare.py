@@ -5,7 +5,6 @@ import sys
 
 details_file = sys.argv[1]
 
-host = "ec2-{}.compute-1.amazonaws.com"
 env.user = 'ec2-user'
 env.key_filename = '/root/.ssh/couchbase-qe.pem'
 
@@ -28,8 +27,7 @@ for reservation in reservations:
             if tag["Key"] == "aws:cloudformation:stack-name" and tag["Value"] == "a-test":
                 if "PublicIpAddress" in instance:
                     ip_list_public.append(instance["PublicIpAddress"])
-                    public_ip = instance["PublicIpAddress"].replace(".", "-")
-                    ip_list_public_dns.append(host.format(public_ip))
+                    ip_list_public_dns.append(instance["PublicDnsName"])
                     ip_list_private.append(instance["PrivateIpAddress"])
 
 print ip_list_public
