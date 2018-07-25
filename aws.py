@@ -54,7 +54,7 @@ class AWSPrepare(Prepare):
         run("sudo service sshd restart")
 
     def make_ips_file(self):
-        servers = "\\\",\\\"".join(self.ip_list_public_dns)
-        servers = "\\\"" + servers + "\\\""
+        servers = "\",\"".join(self.ip_list_public_dns)
+        servers = "\"" + servers + "\""
         with open(self.IP_FILE, "w") as fp:
             fp.write(servers)
