@@ -14,11 +14,11 @@ def all_servers(task, *args, **kwargs):
 class AWSPrepare(Prepare):
 
     def __init__(self, details_file, key_file):
-        super(AWSPrepare).__init__()
         self.details_file = details_file
         env.user = 'ec2-user'
         env.key_filename = key_file
         self.ip_list_public_dns = []
+        self.create_environment()
 
     def create_environment(self):
         with open(self.details_file, 'r') as f:
@@ -40,12 +40,11 @@ class AWSPrepare(Prepare):
                             self.ip_list_public_dns.append(instance["PublicDnsName"])
                             ip_list_private.append(instance["PrivateIpAddress"])
 
-        print self.ip_list_public_dns
-        print ip_list_private
+        print(self.ip_list_public_dns)
+        print(ip_list_private)
 
     @all_servers
     def make_ssh_ready(self):
-        self.create_environment()
         run("echo 'couchbase' | sudo passwd --stdin root")
         run("sudo sed -i '/#PermitRootLogin yes/c\PermitRootLogin yes' /etc/ssh/sshd_config")
         run("sudo sed -i '/PermitRootLogin forced-commands-only/c\#PermitRootLogin "
