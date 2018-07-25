@@ -3,6 +3,7 @@ from aws import AWSPrepare
 
 
 def prepare_factory(args):
+    args.pop(0)
     cloud = args.pop(0)
 
     if cloud == "AWS":
