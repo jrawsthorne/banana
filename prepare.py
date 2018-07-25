@@ -1,59 +1,33 @@
-import json
-from decorator import decorator
-from fabric.api import env, execute, parallel, run
 import sys
+from aws import AWSPrepare
 
-details_file = sys.argv[1]
 
-env.user = 'ec2-user'
-env.key_filename = sys.argv[2]
+class Prepare:
+    IP_FILE = "../testrunner/ips.txt"
+    STACK_NAME = "a-test"
 
-with open(details_file, 'r') as f:
-    data_store = json.load(f)
+    def __init__(self):
+        pass
 
-reservations = data_store["Reservations"]
+    def make_ssh_ready(self):
+        print "Not Implemented."
 
-ip_list_public = []
-ip_list_private = []
-ip_list_public_dns = []
-for reservation in reservations:
-    instances = reservation["Instances"]
-    for instance in instances:
-        if "Tags" in instance:
-            tags = instance["Tags"]
-        else:
-            continue
-        for tag in tags:
-            if tag["Key"] == "aws:cloudformation:stack-name" and tag["Value"] == "a-test":
-                if "PublicIpAddress" in instance:
-                    ip_list_public.append(instance["PublicIpAddress"])
-                    ip_list_public_dns.append(instance["PublicDnsName"])
-                    ip_list_private.append(instance["PrivateIpAddress"])
+    def make_ips_file(self):
+        print "Not Implemented."
 
-print ip_list_public
-print ip_list_public_dns
-print ip_list_private
+    def prepare(self):
+        self.make_ssh_ready()
+        self.make_ips_file()
 
-@decorator
-def all_servers(task, *args, **kwargs):
-    hosts = ip_list_public_dns
-    return execute(parallel(task), *args, hosts=hosts, **kwargs)
 
-@all_servers
-def make_ssh_ready():
-    run("echo 'couchbase' | sudo passwd --stdin root")
-    run("sudo sed -i '/#PermitRootLogin yes/c\PermitRootLogin yes' /etc/ssh/sshd_config")
-    run("sudo sed -i '/PermitRootLogin forced-commands-only/c\#PermitRootLogin "
-        "forced-commands-only' /etc/ssh/sshd_config")
-    run("sudo sed -i '/PasswordAuthentication no/c\PasswordAuthentication yes' "
-        "/etc/ssh/sshd_config")
-    run("sudo service sshd restart")
+def prepare_factory(args):
+    cloud = args.pop(0)
 
-def make_ips_file():
-    servers = "\",\"".join(ip_list_public_dns)
-    servers = "\"" + servers + "\""
-    with open("../testrunner/ips.txt", "w") as fp:
-        fp.write(servers)
+    if cloud == "AWS":
+        return AWSPrepare(*args)
 
-make_ssh_ready()
-make_ips_file()
+    return Prepare()
+
+if __name__ == "__main__":
+    p = prepare_factory(sys.argv)
+    p.prepare()
