@@ -1,4 +1,5 @@
 # banana
+Purpose of this repo is to assist cloud setup for Couchbase QA.
 
 usage:
 

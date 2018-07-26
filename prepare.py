@@ -1,5 +1,5 @@
 from decorator import decorator
-from fabric.api import execute, parallel, run
+from fabric.api import execute, parallel, settings, sudo
 
 
 @decorator
@@ -21,7 +21,9 @@ class Prepare:
 
     @all_servers
     def set_environment(self):
-        run("echo 'export CBFT_ENV_OPTIONS=bleveMaxResultWindow=10000000' >> /opt/couchbase/bin/couchbase-server")
+        with settings(sudo_user='root'):
+            sudo("echo 'export CBFT_ENV_OPTIONS=bleveMaxResultWindow=10000000' >> /opt/couchbase/bin/couchbase-server")
+            sudo("service couchbase-server restart")
 
     def prepare(self):
         self.make_ssh_ready()
