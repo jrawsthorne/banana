@@ -1,14 +1,7 @@
 import json
-from decorator import decorator
-from fabric.api import env, execute, parallel, run
-from prepare import Prepare
 
-
-@decorator
-def all_servers(task, *args, **kwargs):
-    test = args[0]
-    hosts = test.ip_list_public_dns
-    return execute(parallel(task), *args, hosts=hosts, **kwargs)
+from fabric.api import env, run
+from prepare import all_servers, Prepare
 
 
 class AWSPrepare(Prepare):
