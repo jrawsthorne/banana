@@ -8,7 +8,7 @@ class AzurePrepare(Prepare):
 
     def __init__(self, details_file):
         self.details_file = details_file
-        env.user = 'Administrator'
+        env.user = 'couchbase'
         env.password = 'password'
         self.ip_list_public_dns = []
         self.create_environment()
