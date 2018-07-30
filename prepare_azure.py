@@ -24,7 +24,7 @@ class AzurePrepare(Prepare):
 
     @all_servers
     def make_ssh_ready(self):
-        run("echo 'couchbase\\ncouchbase' | sudo passwd")
+        run("echo 'couchbase\ncouchbase' | sudo passwd")
         run("sudo sed -i '/PermitRootLogin without-password/c\PermitRootLogin yes' /etc/ssh/sshd_config")
         run("sudo service ssh restart")
 
