@@ -8,8 +8,8 @@ class AzurePrepare(Prepare):
 
     def __init__(self, details_file):
         self.details_file = details_file
-        env.user = 'couchbase'
-        env.password = 'foo123!'
+        env.user = 'Administrator'
+        env.password = 'password'
         self.ip_list_public_dns = []
         self.create_environment()
 
@@ -24,7 +24,7 @@ class AzurePrepare(Prepare):
 
     @all_servers
     def make_ssh_ready(self):
-        run("echo 'couchbase' | sudo passwd --stdin root")
+        run("echo 'couchbase' | sudo passwd")
         run("sudo sed -i '/PermitRootLogin without-password/c\PermitRootLogin yes' /etc/ssh/sshd_config")
         run("sudo service ssh restart")
 
