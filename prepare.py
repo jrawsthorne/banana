@@ -22,7 +22,9 @@ class Prepare:
     @all_servers
     def set_environment(self):
         with settings(sudo_user='root'):
-            sudo("echo 'export CBFT_ENV_OPTIONS=bleveMaxResultWindow=10000000' >> /opt/couchbase/bin/couchbase-server")
+            sudo("sed -i 's/export PATH/export PATH\nexport "
+                 "CBFT_ENV_OPTIONS=bleveMaxResultWindow=10000000/g' "
+                 "/opt/couchbase/bin/couchbase-server")
             sudo("service couchbase-server restart")
 
     def prepare(self):

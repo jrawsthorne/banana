@@ -1,5 +1,6 @@
 import sys
-from aws import AWSPrepare
+from prepare_aws import AWSPrepare
+from prepare_azure import AzurePrepare
 
 
 def prepare_factory(args):
@@ -8,6 +9,8 @@ def prepare_factory(args):
 
     if cloud == "AWS":
         return AWSPrepare(*args)
+    if cloud == "Azure":
+        return AzurePrepare(*args)
 
 
 if __name__ == "__main__":
