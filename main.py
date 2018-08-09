@@ -1,6 +1,7 @@
 import sys
 from prepare_aws import AWSPrepare
 from prepare_azure import AzurePrepare
+from prepare_gcp import GCPPrepare
 
 
 def prepare_factory(args):
@@ -11,6 +12,8 @@ def prepare_factory(args):
         return AWSPrepare(*args)
     if cloud == "Azure":
         return AzurePrepare(*args)
+    if cloud == "GCP":
+        return GCPPrepare(*args)
 
 
 if __name__ == "__main__":
