@@ -5,6 +5,7 @@ from prepare import all_servers, Prepare
 
 
 class AWSPrepare(Prepare):
+    STACK_NAME = "a-test"
 
     def __init__(self, details_file, key_file):
         self.details_file = details_file

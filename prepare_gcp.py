@@ -1,6 +1,5 @@
 import json
 
-from fabric.api import env, run
 from prepare import all_servers, Prepare
 
 
@@ -8,8 +7,6 @@ class GCPPrepare(Prepare):
 
     def __init__(self, details_file):
         self.details_file = details_file
-        env.user = 'couchbase'
-        env.password = 'foo123!'
         self.ip_list_public_dns = []
         self.create_environment()
 
@@ -24,9 +21,7 @@ class GCPPrepare(Prepare):
 
     @all_servers
     def make_ssh_ready(self):
-        run("echo 'couchbase\ncouchbase' | sudo passwd")
-        run("sudo sed -i '/PermitRootLogin without-password/c\PermitRootLogin yes' /etc/ssh/sshd_config")
-        run("sudo service ssh restart")
+        pass
 
     def make_ips_file(self):
         servers = "\",\"".join(self.ip_list_public_dns)

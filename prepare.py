@@ -11,7 +11,6 @@ def all_servers(task, *args, **kwargs):
 
 class Prepare:
     IP_FILE = "../testrunner/ips.txt"
-    STACK_NAME = "a-test"
 
     def make_ssh_ready(self):
         print("Not Implemented.")
