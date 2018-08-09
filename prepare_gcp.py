@@ -1,5 +1,6 @@
 import json
 
+from fabric.api import env
 from prepare import all_servers, Prepare
 
 
@@ -7,6 +8,8 @@ class GCPPrepare(Prepare):
 
     def __init__(self, details_file):
         self.details_file = details_file
+        env.user = 'root'
+        env.password = 'couchbase'
         self.ip_list_public_dns = []
         self.create_environment()
 
