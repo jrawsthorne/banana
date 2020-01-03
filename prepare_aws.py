@@ -7,8 +7,11 @@ from prepare import all_servers, Prepare
 class AWSPrepare(Prepare):
     STACK_NAME = "a-test"
 
-    def __init__(self, details_file, key_file):
+    def __init__(self, details_file, key_file, stack_name):
         self.details_file = details_file
+        self.stack_name = self.STACK_NAME
+        if isinstance(stack_name, basestring):
+            self.stack_name = stack_name
         env.user = 'ec2-user'
         env.key_filename = key_file
         self.ip_list_public_dns = []
@@ -29,7 +32,7 @@ class AWSPrepare(Prepare):
                 else:
                     continue
                 for tag in tags:
-                    if tag["Key"] == "aws:cloudformation:stack-name" and tag["Value"] == self.STACK_NAME:
+                    if tag["Key"] == "aws:cloudformation:stack-name" and tag["Value"] == self.stack_name:
                         if "PublicIpAddress" in instance:
                             self.ip_list_public_dns.append(instance["PublicDnsName"])
                             ip_list_private.append(instance["PrivateIpAddress"])
