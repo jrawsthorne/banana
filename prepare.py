@@ -29,4 +29,5 @@ class Prepare:
     def prepare(self):
         self.make_ssh_ready()
         self.make_ips_file()
-        self.set_environment()
+        # TODO: Need to wait for couchbase to finish installing
+        # self.set_environment()
