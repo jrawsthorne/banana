@@ -10,7 +10,7 @@ class AWSPrepare(Prepare):
     def __init__(self, details_file, key_file, stack_name):
         self.details_file = details_file
         self.stack_name = self.STACK_NAME
-        if isinstance(stack_name, basestring):
+        if isinstance(stack_name, str):
             self.stack_name = stack_name
         env.user = 'ec2-user'
         env.key_filename = key_file
